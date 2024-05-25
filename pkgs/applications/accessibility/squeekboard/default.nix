@@ -17,8 +17,7 @@
 , rustPlatform
 , rustc
 , feedbackd
-, wrapGAppsHook
-, fetchpatch
+, wrapGAppsHook3
 , nixosTests
 }:
 
@@ -47,7 +46,7 @@ stdenv.mkDerivation rec {
     pkg-config
     glib
     wayland
-    wrapGAppsHook
+    wrapGAppsHook3
     rustPlatform.cargoSetupHook
     cargo
     rustc

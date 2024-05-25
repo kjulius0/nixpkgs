@@ -3,29 +3,32 @@
 , darwin
 , fetchFromGitHub
 , installShellFiles
+, libiconv
 , openssl
 , pkg-config
+, python3Packages
 , rustPlatform
 , stdenv
 , nix-update-script
 }:
 
-rustPlatform.buildRustPackage rec {
+python3Packages.buildPythonApplication rec {
   pname = "uv";
-  version = "0.1.39";
+  version = "0.2.3";
+  pyproject = true;
 
   src = fetchFromGitHub {
     owner = "astral-sh";
     repo = "uv";
     rev = version;
-    hash = "sha256-o5KrguapmfihO8oAse+LjBH9MvSsUORyZRALxkU4+xA=";
+    hash = "sha256-NwIjuOsf6tv+kVEXA2GvQkVwDznZs5fnnkzcnVoOGpY=";
   };
 
-  cargoLock = {
+  cargoDeps = rustPlatform.importCargoLock {
     lockFile = ./Cargo.lock;
     outputHashes = {
       "async_zip-0.0.17" = "sha256-Q5fMDJrQtob54CTII3+SXHeozy5S5s3iLOzntevdGOs=";
-      "pubgrub-0.2.1" = "sha256-sqC7R2mtqymYFULDW0wSbM/MKCZc8rP7Yy/gaQpjYEI=";
+      "pubgrub-0.2.1" = "sha256-mAPyo2R996ymzCt6TAX2G7xU1C3vDGjYF0z7R8lI1yg=";
     };
   };
 
@@ -33,13 +36,18 @@ rustPlatform.buildRustPackage rec {
     cmake
     installShellFiles
     pkg-config
+    rustPlatform.cargoSetupHook
+    rustPlatform.maturinBuildHook
   ];
 
   buildInputs = [
+    libiconv
     openssl
   ] ++ lib.optionals stdenv.isDarwin [
     darwin.apple_sdk.frameworks.SystemConfiguration
   ];
+
+  dontUseCmakeConfigure = true;
 
   cargoBuildFlags = [ "--package" "uv" ];
 
@@ -57,6 +65,10 @@ rustPlatform.buildRustPackage rec {
       --fish <($out/bin/uv --generate-shell-completion fish) \
       --zsh <($out/bin/uv --generate-shell-completion zsh)
   '';
+
+  pythonImportsCheck = [
+    "uv"
+  ];
 
   passthru.updateScript = nix-update-script { };
 

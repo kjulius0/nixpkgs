@@ -113,10 +113,10 @@ in
         type = lib.types.nullOr lib.types.str // {
           description = "session name";
           check = d:
-            lib.assertMsg (d != null -> (lib.types.str.check d && lib.elem d config.services.displayManager.sessionData.sessionNames)) ''
+            lib.assertMsg (d != null -> (lib.types.str.check d && lib.elem d cfg.sessionData.sessionNames)) ''
                 Default graphical session, '${d}', not found.
                 Valid names for 'services.displayManager.defaultSession' are:
-                  ${lib.concatStringsSep "\n  " cfg.displayManager.sessionData.sessionNames}
+                  ${lib.concatStringsSep "\n  " cfg.sessionData.sessionNames}
               '';
         };
         default = null;
@@ -187,7 +187,7 @@ in
 
     services.displayManager.sessionData = {
       desktops = installedSessions;
-      sessionNames = lib.concatMap (p: p.providedSessions) config.services.displayManager.sessionPackages;
+      sessionNames = lib.concatMap (p: p.providedSessions) cfg.sessionPackages;
       # We do not want to force users to set defaultSession when they have only single DE.
       autologinSession =
         if cfg.defaultSession != null then

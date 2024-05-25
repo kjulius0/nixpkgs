@@ -1,18 +1,19 @@
-{ lib
-, stdenv
-, nixosTests
-, auditwheel
-, buildPythonPackage
-, git
-, greenlet
-, fetchFromGitHub
-, pyee
-, python
-, pythonOlder
-, setuptools
-, setuptools-scm
-, playwright-driver
-, pythonRelaxDepsHook
+{
+  lib,
+  stdenv,
+  auditwheel,
+  buildPythonPackage,
+  git,
+  greenlet,
+  fetchFromGitHub,
+  nixosTests,
+  pyee,
+  playwright-driver,
+  python,
+  pythonOlder,
+  pythonRelaxDepsHook,
+  setuptools,
+  setuptools-scm,
 }:
 
 let
@@ -52,7 +53,7 @@ buildPythonPackage rec {
 
     substituteInPlace setup.py \
       --replace "setuptools-scm==8.0.4" "setuptools-scm" \
-      --replace "wheel==0.41.2" "wheel"
+      --replace-fail "wheel==0.42.0" "wheel"
 
     substituteInPlace pyproject.toml \
       --replace 'requires = ["setuptools==68.2.2", "setuptools-scm==8.0.4", "wheel==0.42.0", "auditwheel==5.4.0"]' \
@@ -67,7 +68,6 @@ buildPythonPackage rec {
     substituteInPlace playwright/_impl/_driver.py \
       --replace "@driver@" "${driver}/bin/playwright"
   '';
-
 
   nativeBuildInputs = [
     git
@@ -93,9 +93,7 @@ buildPythonPackage rec {
   # Skip tests because they require network access.
   doCheck = false;
 
-  pythonImportsCheck = [
-    "playwright"
-  ];
+  pythonImportsCheck = [ "playwright" ];
 
   passthru = {
     inherit driver;
@@ -112,7 +110,16 @@ buildPythonPackage rec {
     mainProgram = "playwright";
     homepage = "https://github.com/microsoft/playwright-python";
     license = licenses.asl20;
-    maintainers = with maintainers; [ techknowlogick yrd phaer ];
-    platforms = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    maintainers = with maintainers; [
+      techknowlogick
+      yrd
+      phaer
+    ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
   };
 }

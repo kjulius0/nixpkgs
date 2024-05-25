@@ -1,11 +1,10 @@
 { lib
 , fetchFromGitHub
-, fetchpatch
 , meson
 , python3Packages
 , ninja
 , gtk3
-, wrapGAppsHook
+, wrapGAppsHook3
 , glib
 , gtksourceview4
 , itstool
@@ -33,7 +32,7 @@ python3Packages.buildPythonApplication rec {
     ninja
     itstool
     gettext
-    wrapGAppsHook
+    wrapGAppsHook3
     gobject-introspection
   ];
 

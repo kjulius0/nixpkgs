@@ -1,7 +1,6 @@
 { stdenv
 , lib
 , fetchurl
-, fetchpatch2
 , at-spi2-core
 , babl
 , dbus
@@ -30,7 +29,7 @@
 , python3
 , tracker
 , tracker-miners
-, wrapGAppsHook
+, wrapGAppsHook3
 }:
 
 stdenv.mkDerivation rec {
@@ -63,7 +62,7 @@ stdenv.mkDerivation rec {
       pygobject3
       pyatspi
     ]))
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [
