@@ -68,8 +68,8 @@ stdenv.mkDerivation {
     url = "https://playwright.azureedge.net/builds/webkit/${revision}/webkit-${suffix'}.zip";
     stripRoot = false;
     sha256 = {
-      x86_64-linux = "0g1yp6yw6d2kgmwv4g5s35qp1y3lg6ds5irc7kakvyf7v5zlkvy3";
-      aarch64-linux = "1jpy01msw5cl1www4s41g0mgjydl3frvmiy6dxgwq0qqf2zfz692";
+      x86_64-linux = "1jj9w2rdaqmqgmgv274ly6j2y1g030ykcsi157d81nyf1yy7882m";
+      aarch64-linux = "05sf2izal4v7bj8cw623a4kwycpzmvbcirpbkqfhkhbmd737njmk";
     }.${system} or throwSystem;
   };
 

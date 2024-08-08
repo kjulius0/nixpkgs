@@ -13,7 +13,8 @@ version=$(curl ${GITHUB_TOKEN:+" -u \":$GITHUB_TOKEN\""} -s https://api.github.c
 # Playwright version, but that isn't a guarantee, so this needs to be specified
 # as well:
 setup_py_url="https://github.com/microsoft/playwright-python/raw/v${version}/setup.py"
-driver_version=$(curl -Ls "$setup_py_url" | grep '^driver_version =' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+driver_version="1.43.1"
+#$(curl -Ls "$setup_py_url" | grep '^driver_version =' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 fetch_driver_arch() {
   nix-prefetch-url --print-path "https://playwright.azureedge.net/builds/driver/playwright-${driver_version}-${1}.zip"
