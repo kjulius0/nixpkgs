@@ -50,7 +50,7 @@ let
     nativeBuildInputs = [ unzip ];
 
     postPatch = ''
-
+      touch playwright.sh
       echo '#!/bin/sh
       SCRIPT_PATH="$(cd "$(dirname "$$0")" ; pwd -P)"
       if [ -z "$$PLAYWRIGHT_NODEJS_PATH" ]; then
